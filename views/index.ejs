@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Rental</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+</head>
+<style>
+body{
+    
+    text-align: center;
+
+}
+.btn{
+text-align: left;
+    display: flex;
+    width: 60px;
+    border-radius: 10px;
+}
+    td:hover{
+        background-color: rgb(123, 122, 124);
+       color: #fff;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <h1>Imformation Customer</h1>
+
+        <form action="/add" method="POST" class="mb-4"id="form_input" style="display: none;">
+            <input type="text" name="tenant_name" class="form-control mb-2" placeholder="Tenant Name" required>
+            <input type="text" name="phone_number" class="form-control mb-2" placeholder="Phone Number" required>
+            <input type="date" name="rental_date" class="form-control mb-2" required>
+            <input type="date" name="due_date" class="form-control mb-2" required>
+            <input type="number" name="electricity_units" class="form-control mb-2" placeholder="Electricity Units" required>
+            <input type="number" name="water_units" class="form-control mb-2" placeholder="Water Units" required>
+            <input type="number" name="total_price" class="form-control mb-2" placeholder="Total Price" required>
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+        </form>
+        <button type="submit"id="show_input" class="btn btn-primary">เพิ่มข้อมูล</button>
+        <button type="submit"id="close_btn" class="btn btn-primary" style="display: none;">พับลง</button>
+
+        <h2>ตารางข้อมูลลูกค้า</h2>
+        <table id="rentalTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tenant Name</th>
+                    <th>Phone Number</th>
+                    <th>Rental Date</th>
+                    <th>Due Date</th>
+                    <th>Electricity Units</th>
+                    <th>Water Units</th>
+                    <th>Total Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% rentals.forEach(rental => { %>
+                    <tr data-id="<%= rental.id %>">
+                        <td><%= rental.id %></td>
+                        <td contenteditable="true" data-field="tenant_name"><%= rental.tenant_name %></td>
+                        <td contenteditable="true" data-field="phone_number"><%= rental.phone_number %></td>
+                        <td contenteditable="true" data-field="rental_date"><%= rental.rental_date.toString().split('T')[0] %></td>
+                        <td contenteditable="true" data-field="due_date"><%= rental.due_date.toString().split('T')[0] %></td>
+                        <td contenteditable="true" data-field="electricity_units"><%= rental.electricity_units %></td>
+                        <td contenteditable="true" data-field="water_units"><%= rental.water_units %></td>
+                        <td contenteditable="true" data-field="total_price"><%= rental.total_price %></td>
+                        <td>
+                            <button class="btn btn-success editBtn id="save_btn">Save</button>
+                            <form action="/delete/<%= rental.id %>" method="POST" style="display:inline;">
+                                <button  type="submit" class="btn btn-danger id="del_btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+ 
+<script>
+    
+    $('#show_input').on('click',()=>{
+        $('#form_input').show();
+        $('#show_input').hide();
+        $('#close_btn').show();
+    });
+    $('#close_btn').on('click',()=>{
+        $('#form_input').hide();
+        $('#show_input').show();
+        $('#close_btn').hide();
+    });
+</script>
+    <script>
+        $(document).ready(function() {
+            $('#rentalTable').DataTable();
+
+            // แก้ไขข้อมูลในตาราง
+            $('.editBtn').on('click', function() {
+                const row = $(this).closest('tr');
+                const id = row.data('id');
+                const data = {
+                    tenant_name: row.find('[data-field="tenant_name"]').text(),
+                    phone_number: row.find('[data-field="phone_number"]').text(),
+                    rental_date: row.find('[data-field="rental_date"]').text(),
+                    due_date: row.find('[data-field="due_date"]').text(),
+                    electricity_units: row.find('[data-field="electricity_units"]').text(),
+                    water_units: row.find('[data-field="water_units"]').text(),
+                    total_price: row.find('[data-field="total_price"]').text()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: `/edit/${id}`,
+                    data: data,
+                    success: function() {
+                        alert('Data updated successfully!');
+                        location.reload();
+                    },
+                    error: function() {
+                        alert('Error updating data.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
