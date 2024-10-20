@@ -31,13 +31,14 @@ text-align: left;
         <h1>หอพักเจ๊นวลหวานเจี๊ยบ</h1>
 
         <form action="/add" method="POST" class="mb-4"id="form_input" style="display: none;">
-            <input type="text" name="tenant_name" class="form-control mb-2" placeholder="Tenant Name" required>
-            <input type="text" name="phone_number" class="form-control mb-2" placeholder="Phone Number" required>
+            <input type="text" name="tenant_name" class="form-control mb-2" placeholder="Tenant Name" >
+            <input type="text" name="room" class="form-control mb-2" placeholder="ห้องที่" >
+            <input type="text" name="phone_number" class="form-control mb-2" placeholder="Phone Number" >
             <input type="date" name="rental_date" class="form-control mb-2" required>
             <input type="date" name="due_date" class="form-control mb-2" required>
             <input type="number" name="electricity_units" class="form-control mb-2" placeholder="Electricity Units" required>
-            <input type="number" name="water_units" class="form-control mb-2" placeholder="Water Units" required>
-            <input type="number" name="total_price" class="form-control mb-2" placeholder="Total Price" required>
+            <input type="number" name="water_units" class="form-control mb-2" placeholder="Water Units" >
+            <input type="number" name="total_price" class="form-control mb-2" placeholder="Total Price" >
             <button type="submit" class="btn btn-primary">บันทึก</button>
         </form>
         <button type="submit"id="show_input" class="btn btn-primary">เพิ่มข้อมูล</button>
@@ -48,6 +49,7 @@ text-align: left;
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>ห้อง</th>
                     <th>ชื่อลูกค้า</th>
                     <th>เบอร์โทร</th>
                     <th>วันที่เข้าอยู่</th>
@@ -62,6 +64,7 @@ text-align: left;
                 <% rentals.forEach(rental => { %>
                     <tr data-id="<%= rental.id %>">
                         <td><%= rental.id %></td>
+                        <td contenteditable="true" data-field="room"><%= rental.room %></td>
                         <td contenteditable="true" data-field="tenant_name"><%= rental.tenant_name %></td>
                         <td contenteditable="true" data-field="phone_number"><%= rental.phone_number %></td>
                         <td contenteditable="true" data-field="rental_date"><%= rental.rental_date.toString().split('T')[0] %></td>
@@ -103,6 +106,7 @@ text-align: left;
                 const row = $(this).closest('tr');
                 const id = row.data('id');
                 const data = {
+                   room: row.find('[data-field="room"]').text(),
                     tenant_name: row.find('[data-field="tenant_name"]').text(),
                     phone_number: row.find('[data-field="phone_number"]').text(),
                     rental_date: row.find('[data-field="rental_date"]').text(),
