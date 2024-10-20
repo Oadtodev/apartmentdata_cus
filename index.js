@@ -16,10 +16,11 @@ app.use(express.static('views'));
 
 // สร้างการเชื่อมต่อกับ MySQL
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'apartment_rental'
+ host: 'sql12.freesqldatabase.com',
+    user: 'sql12739189',
+    password: 'ZT1JQLRDZx',
+    database: 'sql12739189'
+
 });
 
 db.connect((err) => {
