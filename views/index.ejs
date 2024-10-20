@@ -25,7 +25,7 @@ text-align: left;
 </style>
 <body>
     <div class="container mt-5">
-        <h1>หอพักเจ๊นวลหวานเจี๊ยบ</h1>
+        <h1>ระบบแจ้งข้อมูลOnline</h1>
 
         <form action="/add" method="POST" class="mb-4"id="form_input" style="display: none;">
             <input type="text" name="tenant_name" class="form-control mb-2" placeholder="Tenant Name" >
@@ -35,13 +35,13 @@ text-align: left;
             <input type="date" name="due_date" class="form-control mb-2" required>
             <input type="number" name="electricity_units" class="form-control mb-2" placeholder="Electricity Units" required>
             <input type="number" name="water_units" class="form-control mb-2" placeholder="Water Units" >
-            <input type="number" name="total_price" class="form-control mb-2" placeholder="Total Price" >
+            <input type="number" name="total_price" class="form-control mb-2" placeholder="แจ้งซ่อม" >
             <button type="submit" class="btn btn-primary">บันทึก</button>
         </form>
         <button type="submit"id="show_input" class="btn btn-primary">เพิ่มข้อมูล</button>
         <button type="submit"id="close_btn" class="btn btn-primary" style="display: none;">พับลง</button>
 
-        <h2>ตารางข้อมูลลูกค้า</h2>
+        <h2>ตารางเก็บข้อมูลลูกค้า</h2>
         <table id="rentalTable" class="table table-striped">
             <thead>
                 <tr>
@@ -53,7 +53,7 @@ text-align: left;
                     <th>วันครบกำหนด</th>
                     <th>เลขไฟ</th>
                     <th>เลขน้ำ</th>
-                    <th>ราคารวม</th>
+                    <th>แจ้งซ่อม</th>
                     <th>Actions</th>
                 </tr>
             </thead>
