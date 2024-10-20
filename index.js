@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 // เพิ่มข้อมูลการเช่า
 app.post('/add', (req, res) => {
     const { room,tenant_name, phone_number, rental_date, due_date, electricity_units, water_units, total_price } = req.body;
-    const sql = 'INSERT INTO rentals (room,tenant_name, phone_number, rental_date, due_date, electricity_units, water_units, total_price) VALUES (?.?, ?, ?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO rentals (room,tenant_name, phone_number, rental_date, due_date, electricity_units, water_units, total_price) VALUES (?,?, ?, ?, ?, ?, ?, ?)';
     db.query(sql, [room,tenant_name, phone_number, rental_date, due_date, electricity_units, water_units, total_price], (err) => {
         if (err) throw err;
         res.redirect('/');
